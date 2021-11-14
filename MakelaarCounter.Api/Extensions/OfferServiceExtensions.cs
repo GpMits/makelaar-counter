@@ -14,11 +14,17 @@ namespace MakelaarCounter.Api.Extensions
     {
         public static void RegisterOfferService(this IServiceCollection services, IConfiguration configuration)
         {
+            // Using Polly here to mitigate the 100 request per minutes limit.
             services.AddHttpClient<IOfferService, OfferService>(
                     client => client.BaseAddress = GetFundaApiUri(configuration))
                 .AddPolicyHandler(GetRetryPolicy());
         }
         
+        /// <summary>
+        /// This method can be called during the startup to populate the memory cache
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="searchStrings"></param>
         public static async void StartOfferServiceCache(this IApplicationBuilder app, IEnumerable<string> searchStrings)
         {
             var serviceProvider = app.ApplicationServices;
@@ -30,7 +36,8 @@ namespace MakelaarCounter.Api.Extensions
         }
         
         private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
-        {
+        {   
+            // This hardcoded values were not optimized
             return HttpPolicyExtensions
                 .HandleTransientHttpError()
                 .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.Unauthorized)

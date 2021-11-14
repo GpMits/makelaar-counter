@@ -16,8 +16,14 @@ namespace MakelaarCounter.Api.Controllers
             _offerService = offerService;
         }
 
+        /// <summary>
+        /// Gets the <paramref name="top"/> makelaars with the most house sale offers base on the search query
+        /// </summary>
+        /// <param name="searchQuery"></param>
+        /// <param name="top"></param>
+        /// <returns></returns>
         [HttpGet("offer-count/{searchQuery}/{top:int}")]
-        public async Task<IActionResult> GetOfferCount(string searchQuery, int top)
+        public async Task<IActionResult> GetMakelaarOfferCount(string searchQuery, int top)
         {
             var makelaarCount = await _offerService.GetMakelaarOfferCount(searchQuery, top);
             return !makelaarCount.Any() 
@@ -25,16 +31,24 @@ namespace MakelaarCounter.Api.Controllers
                 : Ok(makelaarCount);
         }
         
+        /// <summary>
+        /// Gets the top 10 makelaars with the most house sale offers in Amsterdam
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("offer-count-amsterdam")]
-        public async Task<IActionResult> GetOfferCountAmsterdam()
+        public async Task<IActionResult> GetMakelaarOfferCountAmsterdam()
         {
-            return await GetOfferCount("/amsterdam", 10);
+            return await GetMakelaarOfferCount("/amsterdam", 10);
         }
         
+        /// <summary>
+        /// Gets the top 10 makelaars with the most house sale offers in Amsterdam with a garden
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("offer-count-amsterdam-tuin")]
-        public async Task<IActionResult> GetOfferCountAmsterdamTuin()
+        public async Task<IActionResult> GetMakelaarOfferCountAmsterdamTuin()
         {
-            return await GetOfferCount("/amsterdam/tuin", 10);
+            return await GetMakelaarOfferCount("/amsterdam/tuin", 10);
         }
     }
 }

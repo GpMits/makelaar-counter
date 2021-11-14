@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using MakelaarCounter.Api.Core;
 using MakelaarCounter.Api.Models;
 using MakelaarCounter.Api.Models.Responses;
 using Microsoft.Extensions.Caching.Memory;
@@ -34,6 +33,14 @@ namespace MakelaarCounter.Api.Services
             return Core.MakelaarCounter.GetMakelaarCount(offers, top);
         }
 
+        /// <summary>
+        /// Get all offers using a search query.
+        /// It first tries to take the "non persistent" (with expiration) entry in the memory cache,
+        /// if it fails, it tries to get the "persistent" (without expiration) entry in the memory cache.
+        /// If it fails getting the values from the cache, it will get from the Aanbod service.
+        /// </summary>
+        /// <param name="searchQuery"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<Offer>> GetAllOffers(string searchQuery)
         {
             var newCacheKey = GetNewEntryCacheKey(searchQuery);
@@ -109,7 +116,7 @@ namespace MakelaarCounter.Api.Services
                 $"?type=koop" +
                 $"&zo={searchQuery}" +
                 $"&page={pageNumber}" +
-                $"&pageSize=25");
+                "&pageSize=25");
         }
         
     }
