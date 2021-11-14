@@ -5,9 +5,13 @@ This API was built to consume Funda's "Aanbod" (offers, in english) service. In 
 - /makelaars/offer-count-amsterdam
   - Retrieves the top 10 makelaars with most house for sale offers in Amsterdam.
 - /makelaars/offer-count-amsterdam
-  - Retrieves the top 10 makelaars with most house for sale offers in Amsterdam that contain a garder (in dutch, tuin).
+  - Retrieves the top 10 makelaars with most house for sale offers in Amsterdam that contain a garden (in dutch, tuin).
+
+# MakelaarCounter Web Page
+Simple web page to consume the API, nothing fancy here.
+
 
 ## Notes
 - There is a swagger UI included. If you run the project using the port 5000 it is [here](http://localhost:5000/swagger/index.html)
-- The api key (FundaApi:ApiKey in the cofiguration) was not commited to not expose it to public
+- The api key (FundaApi:ApiKey in the configuration) was not commited to not expose it to public
  
